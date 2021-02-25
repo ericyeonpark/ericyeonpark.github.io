@@ -18,7 +18,7 @@ One common tip that streamers get when trying to gain more Twitch followers is t
 
 The data provided by Kaggle gives us basic data from the top 100 Twitch streamers, updated as recently as of February 2020. As the image below shows, we get data ranging from their channel name to what language they use.
 
-![data image](/assets/img/Twitch_Data_Intro.png | width=100)
+![data image](/assets/img/Twitch_Data_Intro.png){:height="150%" width="150%"}
 
 Here is a key to see exactly what each column header(variable) is:
 - **Channel:** The streamer's channel name
