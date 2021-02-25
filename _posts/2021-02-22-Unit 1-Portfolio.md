@@ -1,10 +1,10 @@
 ---
 layout: post
-title: One Key to Gaining Followers on Twitch
-subtitle: Lamda School Unit 1 Portfolio
-cover-img: /assets/img/path.jpg
-thumbnail-img: /assets/img/thumb.png
-share-img: /assets/img/path.jpg
+title: Can Streaming More Increase your Follower Count? 
+subtitle: Lamda School Unit 1 Portfolio Project
+cover-img: /assets/img/Increase_Sales.jpg
+thumbnail-img: /assets/img/Increase_Sales.png
+share-img: /assets/img/Increase_Sales.jpg
 tags: [Lambda-School, portfolio]
 ---
 
