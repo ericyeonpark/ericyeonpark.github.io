@@ -3,7 +3,7 @@ layout: post
 title: Can Streaming More Increase your Follower Count? 
 subtitle: Lamda School Unit 1 Portfolio Project
 cover-img: /assets/img/Increase_Sales.jpg
-thumbnail-img: /assets/img/Increase_Sales.png
+thumbnail-img: /assets/img/Increase_Sales.jpg
 share-img: /assets/img/Increase_Sales.jpg
 tags: [Lambda-School, portfolio]
 ---
@@ -29,8 +29,9 @@ Here is a key to see exactly what each column header(variable) is:
 - **Views gained:** The amount of views gained during February 2020 - February 2021
 - **Partnered:** If they are an official Twitch partner
 - **Mature:** If the streamer has voluntarily (usually) set their channel to mature, meaning they tell users that there could be profanity, etc
-- **Language:** What language the streamer mainly streams in
-- 
+- **Language:** What language the streamer mainly streams in  
+
+
 ## This is markdown
 
 ### Smaller header
