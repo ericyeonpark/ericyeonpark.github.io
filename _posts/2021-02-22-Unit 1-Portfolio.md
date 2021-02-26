@@ -18,7 +18,7 @@ One common tip that streamers get when trying to gain more Twitch followers is t
 
 The data provided by Kaggle gives us basic data from the top 100 Twitch streamers, updated as recently as of February 2020. As the image below shows, we get data ranging from their channel name to what language they use.
 
-![data image](/assets/img/Twitch_Data_Intro.png){:height="150%" width="150%"}
+<img src="/assets/img/Twitch_Data_Intro.png" width="2000" height="200">
 
 Here is a key to see exactly what each column header(variable) is:
 - **Channel:** The streamer's channel name
@@ -45,7 +45,7 @@ After I cleaned up my data, I started to think of what the best methods were to 
 
 I will go into more detail of each method as we proceed.
 
-## Step 1: Using a 2-independent-sample t-test
+## Step 1: Using a 2-Independent-Sample T-Test
 
 The first method, and perhaps the most simplest method I used was a **2-independent-sample t-test**. This method checks to see if two population means(averages) are equal. Or specific to this case, it checks to see if the mean of followers gained for _streamers who stream a lot_ is equal to the mean of followers gained for _streamers who dont stream a lot_. This is called the null hypothesis. There is also an alternate hypothesis where it says the population means aren't equal. We test to see if we can reject or fail to reject the null hypothesis or accept the alternate hypothesis. You can find the null and alternate hypothesis below:
 
@@ -57,8 +57,9 @@ However in order to conduct this test, we would need to classify how many hours 
 
 I then conducted the t-test using the variables _"Streams_a_lot"_ and _"Followers_gained"_ to see if there is a relationship betwen them. Using Python, I calculated the **P-value to be 1.28e-07**, which was below the standard significance level of 0.05. Therefore we could reject the null hypothesis and conclude that there is indeed a relationship between streaming a lot and gaining followers.
 
+## Step 2: Diving Deeper with a Simple Linear Regression Model   
 
-
+T
 
 ---
 
