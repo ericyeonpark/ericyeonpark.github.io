@@ -40,12 +40,12 @@ In order to work with the data, I cleaned the data by replacing spaces in the co
 After I cleaned up my data, I started to think of what the best methods were to prove that there was a relationship between streaming often and gaining followers. I decided to take a step-by-step process, using the more simplistic methods first, and then expanding to more elaborative methods at the end. This would hopefully allow me to craft a better picture of the relationship between the variables while also showcasing multiple methods in the process. As a teaser, the methods that I used in order were:
 - 2-independent-sample t-test
 - Simple linear regression model
-- Logistic regression model
+- Simple linear regression model with ouliers removed
 - Multiple regression model
 
 I will go into more detail of each method as we proceed.
 
-## Step 1: Using a 2-Independent-Sample T-Test
+## Using a 2-Independent-Sample T-Test
 
 The first method, and perhaps the most simplest method I used was a **2-independent-sample t-test**. This method checks to see if two population means(averages) are equal. Or specific to this case, it checks to see if the mean of followers gained for _streamers who stream a lot_ is equal to the mean of followers gained for _streamers who dont stream a lot_. This is called the null hypothesis. There is also an alternate hypothesis where it says the population means aren't equal. We test to see if we can reject or fail to reject the null hypothesis or accept the alternate hypothesis. You can find the null and alternate hypothesis below:
 
@@ -57,7 +57,7 @@ However in order to conduct this test, we would need to classify how many hours 
 
 I then conducted the t-test using the variables _"Streams_a_lot"_ and _"Followers_gained"_ to see if there is a relationship betwen them. Using Python, I calculated the **P-value to be 1.28e-07**, which was below the standard significance level of 0.05. Therefore we could reject the null hypothesis and conclude that there is indeed a relationship between streaming a lot and gaining followers.
 
-## Step 2: Diving Deeper with a Simple Linear Regression Model   
+## Diving Deeper with a Simple Linear Regression Model   
 
 One of the limits of using a T-Test only, is that it only tells us that there is a relationship between two variables. If we wanted to learn how statistically related two variables are we could use a **Simple Linear Regression Model**. This model compares the linear relationship between two continous variables. So in this model, we would use the quantitative variable _"Stream_time_hr"_ as our independent variable, instead of _"Streams_a_lot"_ since _"Streams_a_lot"_ is a categorical variable. Our dependent variable would still be _"Followers_gained"_. And our null hypothesis will be slightly different as although it still tests that the two variables are unrelated, it also mathmatically tests that the slope between these two variables are equal to zero.
 
@@ -66,7 +66,7 @@ One of the limits of using a T-Test only, is that it only tells us that there is
 
 In order to see the simple linear regression model, I plotted our two variables against each other in Python
 
-![Simple Linear Regression Model](/assets/img/Simple_linear_reg_graph_port1.png)
+![Simple Linear Regression Graph](/assets/img/Simple_linear_reg_graph_port1.png)
 
 Just by looking at the graph, I could see that there is a negative correlation between the two variables. However since the axis for _"Followers_gained"_ is in the millions, it hard to say how strong the correlation, but it still looks a litte bit on the weaker side. We could also see a bit of outliers in the graph, which could skew the correlation to be more negative. The data points also seem pretty spread, however since there are 1,000 data points, it could be deceptively more linear than it looks.
 
@@ -94,6 +94,27 @@ The main components to look at in this model are
 The most important component to get from this model is _R-Squared_. It basically says that 2.5% of the variability seen in _Followers_gained_ is explained by _Stream_time_hr_. This value is pretty low and shows that there are either a better model to fit the data, or there are other factors affecting the data, whether it be outliers or other data points that we aren't looking at. This confirms that we should make changes in our model to find a more fitting model.
 
 ## Lets Remove Some Outliers
+
+Looking at the graph before, visually it looked like there was some outliers in the data. For instance, looking at the _"Stream_time_hr"_, when calculating the numbers, we could see that some of the streamers were live for 365 days of the year. This essentially means that these channels stayed live for every hour of the year, and therefore the channels content was very atypical compared to the average channel content. A lot of these channels would just stream movies for viewers to watch, without the actual streamer being present. Therefore, in order to find the outliers, we used the df.describe function to find the interquartile range(IQR) for our variables. 
+
+![Simple Linear Regression Outlier](/assets/img/Outlier_port1.png)
+
+Using the IQR, we can calculate our outliers, and then remove them from a copy of our data. Then we do another simple linear regression model, except this time with the data with our outliers removed.
+
+![Simple Linear Regression Outlier Graph](/assets/img/Simple_linear_reg_graph_outlier_port1.png)
+
+Although the data looks more spread out, it's interesting to note that the axis ranges have significantly reduced. In particular, _"Followers_Gained"_ reduced from 1,000,000 to 500,000 people. So technically, it should be that there should be an increase in correlation and hopefully R-Squared value.
+
+After running the OLS model from Python we found our values to be:
+- _P-Value_: 1.33e-14
+- _Linear Correlation Coefficient: -0.258
+- _R-Squared_: 0.067
+
+Looking at these numbers, we can see that the linear correlation coefficient has become stronger from -0.158 to -0.258. However since it got stronger in the negative direction, it's starting to look more likely that our data won't support Lifewire's claim. The R-Squared value slightly increase too, however overall, it is still very low at 6.7%. It looks like that it would be worth looking at some more models.
+
+## Adding New Variables to the Model Helps
+
+
 
 ---
 
