@@ -107,16 +107,31 @@ Although the data looks more spread out, it's interesting to note that the axis 
 
 After running the OLS model from Python we found our values to be:
 - _P-Value_: 1.33e-14
-- _Linear Correlation Coefficient: -0.258
+- _Linear Correlation Coefficient_: -0.258
 - _R-Squared_: 0.067
 
 Looking at these numbers, we can see that the linear correlation coefficient has become stronger from -0.158 to -0.258. However since it got stronger in the negative direction, it's starting to look more likely that our data won't support Lifewire's claim. The R-Squared value slightly increase too, however overall, it is still very low at 6.7%. It looks like that it would be worth looking at some more models.
 
 ## Adding New Variables to the Model Helps
 
+With such a low R-Squared value, we could probably improve our model if do a **multiple regression model** with added variables. Just looking at the data we have, some variables that could help improve the model are _"Followers"_, _"Watch_time_min_", "_Partnered_", _"Peak_viewers"_, and more. I played around with adding different variables into the OLS model to see which combination of variables have the best fit, and using the data with the outliers removed, I found that the strongest combination of variables that we have are _"Followers_gained"_, _"Stream_time_hr"_, _Followers_, and _"Watch_time_min_". 
 
+![Simple Linear Regression Outlier Graph](/assets/img/port1/Multiple_ols_port1.png)
+
+For the multiple regression model, there is no true linear correlation coefficient since we are using multiple variables in the model. Therefore there can't just be one line to connect all the variables since we are technically using four variables in our model.  However. looking at the slope of _"Stream_time_hr"_, we find that it is still negative, so we can still infer that there is a negative correlation between _"Stream_time_hr"_ and _"Followers_gained"_ 
+
+And we also found that the Adjusted R-squared value increased to 0.286 compared to the 0.067 we had before. Or in other words, 28.6% of the variabilty in _"Followers_gained"_ can be explained by the variables _"Stream_time_hr"_, _Followers_, and _"Watch_time_min_". Although the R-squared value increased by a lot, overall it still isn't the highest. This means that we need to find more data (either increase the number or variables or sample size) or find a better fitting model instead of a linear regression. To note, I also tried using logistic regression to see if that better fit the data, but that didn't improve the fit. Given more time, I would look into other mathmatical models that could help improve our data.
 
 ---
 
+## So, Streaming More Often Doesn't Help Gain More Followers?
+
+Therefore, it seems that Lifewire and other sources claims were wrong and that streaming more often doesn't help streamers gain more followers. However, before we make any definite conclusions, we still have to look at the context of the data that was used in all our models. Firstly, the data from Twitch that we received only contained data from the Top 1000 streamers on Twitch. And although the data encompasses streamers who aren't the most impressive holistically (the smallest streamer in our dataset averages 235 viewers), it is still a very small and biased minority of the streamer community. These streamers are still at the top of the streaming ecosystem, and it is likely that different trends occur at the top compared to streamers just starting out. Also, there are many more smaller streamers in the streaming ecosystem, who not only are on Twitch, but on other platforms like Facebook, YouTube, and more. If we wanted to make less biased models, we would need a random sampling of all streamers on all streaming platforms (or better data for our models include all data of all streamers on all streaming platforms). 
+
+Also, it seemed that Lifewire's advice was primarily targeting aspiring streamers. So if our data included only all streamers who started in the past year, we might be able to get different results that supports Lifewire's claim that streaming more helps streamers gain more followers. In the future, if that data is available, I would re-run the models with this data to see if there is a difference.
+
+We also have to see awknowledge that there are many unknown factors that help a streamer grow, and some of those factors may not even be able to be recorded into data as of yet. For instance, some streamers blow up depending on their network connections. Or other streamers grow significantly because they excelled at streaming the newest gaming trend. As more variables of data are able to become recorded, we could create more accurate models to see how correlated certain variables are to gaining followers.
+
+However, in conclusion, we found that within the top 1000 streamers on Twitch, streaming more often is correlated negatively with gaining followers. Or top Twitch streamers who streamed more often, would often not gain as much followers as top Twitch streamers who streamed less often. 
 
 
