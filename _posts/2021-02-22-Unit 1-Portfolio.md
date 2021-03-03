@@ -10,7 +10,7 @@ tags: [Lambda-School, portfolio]
 
 # One Way to Increase Follower Count
 
-One common tip that streamers get when trying to gain more Twitch followers is to stream a lot and frequently. Some sources* suggest streaming 5 hours a day is a faster way to gain followers. With data of the top 1000 Twitch streamers in the world being available on Kaggle, I wanted to check to see if there truly is a relationship between streaming more frequently and an increase in follower count.  
+One common tip that streamers get when trying to gain more Twitch followers is to stream a lot and frequently. Some sources such as [Lifewire](https://www.lifewire.com/gain-more-twitch-followers-4140659) suggest streaming 5 hours a day is a faster way to gain followers. With data of the top 1000 Twitch streamers in the world being available on Kaggle, I wanted to check to see if there truly is a positive relationship between streaming more frequently and an increase in follower count.  
 
 ---
 
@@ -59,7 +59,7 @@ I then conducted the t-test using the variables _"Streams_a_lot"_ and _"Follower
 
 ## Diving Deeper with a Simple Linear Regression Model   
 
-One of the limits of using a T-Test only, is that it only tells us that there is a relationship between two variables. If we wanted to learn how statistically related two variables are we could use a **Simple Linear Regression Model**. This model compares the linear relationship between two continous variables. So in this model, we would use the quantitative variable _"Stream_time_hr"_ as our independent variable, instead of _"Streams_a_lot"_ since _"Streams_a_lot"_ is a categorical variable. Our dependent variable would still be _"Followers_gained"_. And our null hypothesis will be slightly different as although it still tests that the two variables are unrelated, it also mathmatically tests that the slope between these two variables are equal to zero.
+One of the limits of using a t-test is that it only tells us that there is a relationship between two variables. If we wanted to learn how statistically related two variables are we could use a **Simple Linear Regression Model**. This model compares the linear relationship between two continous variables. So in this model, we would use the quantitative variable _"Stream_time_hr"_ as our independent variable, instead of _"Streams_a_lot"_ since _"Streams_a_lot"_ is a categorical variable. Our dependent variable would still be _"Followers_gained"_. And our null hypothesis will be slightly different as although it still tests that the two variables are unrelated, it also mathmatically tests that the slope between these two variables are equal to zero.
 
 - Ho:  β1=0
 - Ha:  β1≠0
@@ -70,7 +70,7 @@ In order to see the simple linear regression model, I plotted our two variables 
 
 Just by looking at the graph, I could see that there is a negative correlation between the two variables. However since the axis for _"Followers_gained"_ is in the millions, it hard to say how strong the correlation, but it still looks a litte bit on the weaker side. We could also see a bit of outliers in the graph, which could skew the correlation to be more negative. The data points also seem pretty spread, however since there are 1,000 data points, it could be deceptively more linear than it looks.
 
-Now that we know how the model looks like, we could use Pyhton to calculate the P-value and R-Coefficient(linear correlation coefficient). The R coefficent measures the strength and direction of the linear relationship between two quantitative variables.
+Now that we know how the model looks like, we could use Python to calculate the P-value and R-Coefficient(linear correlation coefficient). The R coefficent measures the strength and direction of the linear relationship between two quantitative variables.
 
 ```python
 from scipy import stats
@@ -87,8 +87,8 @@ We could also use Python use the ols model from statsmodels to find us the detai
 ![Simple Linear Regression OLS](/assets/img/Simple_linear_reg_model.png)
 
 The main components to look at in this model are
-- _Intercept_: This shows the Y-intercep of the graph
-- _Stream_time_hr_: This shows the slope of the graph. For every one unit increase in _Stream_time_hr_, _Followers_gained_ decreases by -37.78
+- _Intercept_: This shows the Y-intercept of the graph
+- _Stream_time_hr_: This shows the slope of the graph. For every one unit increase in _Stream_time_hr_, _Followers_gained_ decreases by 37.78
 - _R-Squared_: the percent of the variability in the y variable that is explained by differences in the x variable 
 
 The most important component to get from this model is _R-Squared_. It basically says that 2.5% of the variability seen in _Followers_gained_ is explained by _Stream_time_hr_. This value is pretty low and shows that there are either a better model to fit the data, or there are other factors affecting the data, whether it be outliers or other data points that we aren't looking at. This confirms that we should make changes in our model to find a more fitting model.
