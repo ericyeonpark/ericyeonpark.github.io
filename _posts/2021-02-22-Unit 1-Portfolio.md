@@ -10,13 +10,13 @@ tags: [Lambda-School, portfolio]
 
 # One Way to Increase Follower Count
 
-One common tip that streamers get when trying to gain more Twitch followers is to stream a lot and frequently. Some sources such as [Lifewire](https://www.lifewire.com/gain-more-twitch-followers-4140659) suggest streaming 5 hours a day is a faster way to gain followers. With data of the top 1000 Twitch streamers in the world being available on Kaggle, I wanted to check to see if there truly is a positive relationship between streaming more frequently and an increase in follower count.  
+One common tip that streamers get when trying to gain more Twitch followers is to stream frequently. Some sources such as [Lifewire](https://www.lifewire.com/gain-more-twitch-followers-4140659) suggest streaming 5 hours a day is a quick way to gain followers. With data of the top 1000 Twitch streamers in the world being available on Kaggle, I wanted to check to see if there truly is a positive relationship between streaming more frequently and an increase in follower count.  
 
 ---
 
 ## Examining the Data
 
-The data provided by Kaggle gives us basic data from the top 100 Twitch streamers, updated as recently as of February 2020. As the image below shows, we get data ranging from their channel name to what language they use.
+The data provided by Kaggle gives us basic data from the top 1000 Twitch streamers, updated as recently as of February 2020. As the image below shows, we get data ranging from channel name to what language the channel is in.
 
 <img src="/assets/img/Twitch_Data_Intro.png" width="2000" height="175">
 
@@ -33,11 +33,11 @@ Here is a key to see exactly what each column header(variable) is:
 - **Mature:** If the streamer has voluntarily (usually) set their channel to mature, meaning they tell users that there could be profanity, etc
 - **Language:** What language the streamer mainly streams in  
 
-In order to work with the data, I cleaned the data by replacing spaces in the column headers with underscores. This is to prevent any bugs within my code when creating linear regression models down the line. I also feature engineered new variables, _"Stream_time_hr"_ and _"Stream_time_days"_, in order to make reading the stream time data more digestible. The variables that were most essential to the analysis was _"Stream_time_hr"_ and _"Followers gained"_.
+In order to work with the data, I cleaned the data by replacing spaces in the column headers with underscores. This is to prevent any bugs within my code when creating linear regression models down the line. I also feature engineered new variables, _"Stream_time_hr"_ and _"Stream_time_days"_, in order to make reading the stream time data more digestible.
 
 ## So Now What?
 
-After I cleaned up my data, I started to think of what the best methods were to prove that there was a relationship between streaming often and gaining followers. I decided to take a step-by-step process, using the more simplistic methods first, and then expanding to more elaborative methods at the end. This would hopefully allow me to craft a better picture of the relationship between the variables while also showcasing multiple methods in the process. As a teaser, the methods that I used in order were:
+After I cleaned up my data, I started to think of what methods would be best to prove that there is a relationship between streaming often and gaining followers. I decided to take a step-by-step process, using the more simplistic methods first, and then expanding to more elaborative methods at the end. This would hopefully allow me to craft a better picture of the relationship between the variables while also showcasing multiple methods in the process. The methods that I used in order were:
 - 2-independent-sample t-test
 - Simple linear regression model
 - Simple linear regression model with ouliers removed
@@ -47,11 +47,11 @@ I will go into more detail of each method as we proceed.
 
 ## Using a 2-Independent-Sample T-Test
 
-The first method, and perhaps the most simplest method I used was a **2-independent-sample t-test**. This method checks to see if two population means(averages) are equal. Or specific to this case, it checks to see if the mean of followers gained for _streamers who stream a lot_ is equal to the mean of followers gained for _streamers who dont stream a lot_. This is called the null hypothesis. There is also an alternate hypothesis where it says the population means aren't equal. We test to see if we can reject or fail to reject the null hypothesis or accept the alternate hypothesis. You can find the null and alternate hypothesis below:
+The first method, and perhaps the most simplest method I used was a **2-independent-sample t-test**. This method checks to see if two population means(averages) are equal. Or specifically for this case, it checks to see if the mean of _followers_gained_ for _streamers who stream a lot_ is equal to the mean of _followers_gained_ for _streamers who dont stream a lot_. This is called the null hypothesis. There is also an alternate hypothesis where it says the population means aren't equal. We test to see if we can reject or fail to reject the null hypothesis or accept the alternate hypothesis. You can find the null and alternate hypothesis below: 
 
-- H0:μ1=μ2
+- H0:μ_streamers who stream a lot_=μ_streamers who dont stream a lot_
 
-- Ha:μ1≠μ2
+- Ha:μ_streamers who stream a lot_≠μ_streamers who dont stream a lot_
 
 However in order to conduct this test, we would need to classify how many hours is considered a lot for streamers. Using the baseline provided by Lifewire of 5 hours a day, we can estimate that _streamers who stream a lot_ probably stream 5 hours a day, or more than 1303.57 hours a year. So I feature engineered another variable _"Streams_a_lot"_, which assigned a _0_ to streamers who didn't stream more than 1303.57 hours a year and a _1_ to streamers who streamed more than 1303.57 hours a year. 
 
@@ -87,7 +87,6 @@ We could also use Python use the ols model from statsmodels to find us the detai
 ![Simple Linear Regression OLS](/assets/img/Simple_linear_reg_model.png)
 
 The main components to look at in this model are
-- _Intercept_: This shows the Y-intercept of the graph
 - _Stream_time_hr_: This shows the slope of the graph. For every one unit increase in _Stream_time_hr_, _Followers_gained_ decreases by 37.78
 - _R-Squared_: the percent of the variability in the y variable that is explained by differences in the x variable 
 
