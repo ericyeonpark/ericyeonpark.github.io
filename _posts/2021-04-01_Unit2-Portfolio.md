@@ -8,7 +8,7 @@ share-img: /assets/img/port2/Netflix_Thumbnail.jpeg
 tags: [Lambda-School, portfolio]
 ---
 
-# One Way to Increase Follower Count
+# Netflix and Chill
 
 One common tip that streamers get when trying to gain more Twitch followers is to stream frequently. Some sources such as [Lifewire](https://www.lifewire.com/gain-more-twitch-followers-4140659) suggest streaming 5 hours a day is a quick way to gain followers. With data of the top 1000 Twitch streamers in the world being available on Kaggle, I wanted to check to see if there truly is a positive relationship between streaming more frequently and an increase in follower count.  
 
