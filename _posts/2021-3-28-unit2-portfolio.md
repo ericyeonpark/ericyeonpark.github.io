@@ -8,32 +8,51 @@ share-img: /assets/img/port2/Netflix_Thumbnail.jpeg
 tags: [Lambda-School, portfolio]
 ---
 
-# What Movies Get On Netflix
+# How to Get On Netflix
 
-Are you an aspring film maker? Are you intrigued by algorithms? Are you curious what aspects that companies and consumers look for in a successful movie. Then you're reading the right post.
+Are you an aspring film maker? Are you intrigued by algorithms? Are you curious what aspects that companies and consumers look for in a successful movie. Then you're in the right place. Today, I'm going to dive in to what features of a movie make it most likely to be featured on Netflix. In order to figure this out, I conducted a binary classification model using features I found on Kaggle(data updated as of May 2020). And what are these features. You can see exactly what they are below:
+
+- **Netflix:** Whether the movie is found on Netflix
+- **ID:** Arbitrary ID number for each movie
+- **Title:** Title of the movie
+- **Year:** The year in which the movie was produced
+- **IMDb:** IMDb rating of the movie
+- **Rotten Tomatoes:** Rotten Tomatoes % rating of the movie
+- **Hulu:** Whether the movie is found on Hulu
+- **Prime Video** Whether the movie is found on Amazon Prime Video
+- **Disney+** Whether the movie is found on Disney+
+- **Type:** Is it movie or a TV series
+- **Directors:** Director of the movie
+- **Genres:** Genre of the movie
+- **Country:** Country origin of the movie
+- **Language:** Primary language spoken in the movie
+- **Runtime:** The runtime of the movie
 
 ---
 
-## Examining the Data
+# Skimming the Fat
 
-The data provided by Kaggle gives us basic data from the top 1000 Twitch streamers, updated as recently as of February 2020. As the image below shows, we get data ranging from channel name to what language the channel is in.
+With 17,000 observations, one could imagine the amount of cleaning I had to do just to prepare the data for my model. So I took a nice and easy systematic approach to skimming some of the fat of my data.
 
-<img src="/assets/img/Twitch_Data_Intro.png" width="2000" height="175">
+#### Dropping High Null Count Features
+My first step was to look at the null counts for all the features. To my dismay, I found that some of the more interesting features had high null counts. Both the _Rotten Tomatoes_ (~11,500 null values) and _Age_(~9390 null values) had over half of their observations as null and had to be removed.
 
-Here is a key to see exactly what each column header(variable) is:
-- **Channel:** The streamer's channel name
-- **Watch time(Minutes):** The total amount of time that the streamer has been watched on stream (in minutes)
-- **Stream time(minutes):** The total amount of time the streamer streamed to their audience (in minutes)
-- **Peak viewers:** The max amount of viewers they had at once during a stream
-- **Average viewers:** The average amount of viewers they had during a stream
-- **Followers:** The total amount of followers they currently have (as of February 2021)
-- **Followers gained** The amount of followers gained during February 2020 - February 2021
-- **Views gained:** The amount of views gained during February 2020 - February 2021
-- **Partnered:** If they are an official Twitch partner
-- **Mature:** If the streamer has voluntarily (usually) set their channel to mature, meaning they tell users that there could be profanity, etc
-- **Language:** What language the streamer mainly streams in  
+#### Dropping High-Cardinality and Low-Cardinality Features
+Next I looked into which features had high-cardinality (had many unique values) and found 4 features that made the cut. _Title_, _Directors_, and _ID_. I wasn't too sad about dropping these features as in terms of the greater picture of finding what movies/shows get on Netflix, these features would have little importance for prediction in our model. However, unfortuntely, I found that _Type_ seemed to be a broken feature in that in only had one value throughout (value = 0) and therefore had to be dropped since it would give no value to our model.
 
-In order to work with the data, I cleaned the data by replacing spaces in the column headers with underscores. This is to prevent any bugs within my code when creating linear regression models down the line. I also feature engineered new variables, _"Stream_time_hr"_ and _"Stream_time_days"_, in order to make reading the stream time data more digestible.
+#### Dropping Irrelevant Features to Prevent Data Leakage
+When I first created my model, I found that it was performing at absurd levels (>94% accuracy) and I had wondered why my model was overfitting. After taking a closer look at the features, I realized that some of my features were most likely causing data leakage and would need to be removed. I decided to remove _Hulu_, _Prime Video_, and _Disney+_ as it occured to me that whether a movie/show was on Hulu, Amazon Prime, or Disney+ logically should have no bearing on whether a movie/show goes onto Netflix. It was also likely that a lot of movies/shows overlapped with Netflix, so there data leakage that made my model overfit. However, I think it would be interesting to see what features matter most for the other streaming platforms and compare and contrast them in a future project.
+
+Now that I dropped a lot of the fat, the features that would be incorporated in my model are the following:
+- **Netflix:** Whether the movie is found on Netflix
+- **Year:** The year in which the movie was produced
+- **IMDb:** IMDb rating of the movie
+- **Genres:** Genre of the movie
+- **Country:** Country origin of the movie
+- **Language:** Primary language spoken in the movie
+- **Runtime:** The runtime of the movie
+
+# Fleshing Out the Fat
 
 ## So Now What?
 
