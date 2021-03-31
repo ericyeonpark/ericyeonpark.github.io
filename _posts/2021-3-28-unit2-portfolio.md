@@ -129,6 +129,14 @@ At first glance, we can see that the "Not On Netflix" precision and recall value
 
 # Back to the Editing Room
 
+Now that we got the initial response to our pre-release screening, it's time to go back to the editting room and improve our film. In this case, we're looking for a way to increase our relatively low precision and recall values for our model. One way is to adjust our threshold values that our model uses to make predictions. Currently the default threshold value is at 50%, meaning if the model predicts the normalized value of "On Netflix" to be above 50%, it will predict that observation to be on Netflix. One way to see which threshold to use, we can look at ROC curve.
+
+![ROC Curve](/assets/img/port2/ROC Curve.png)
+
+The ROC Curve compares the false positive rates(FPR) with the true positive rates(TPR) of our models. The ideal point on this model would be where there is a high true positive rate and a low false positive rate. Looking at the curve, we see the curve increase sharply at a high TPR at the FPR range of 0.1 - 0.3 before it starts to slowly taper off. By creating a mask, we are able to find the corresponding threshold to use (threshold = 0.289). This threshold means that now instead of 50%, the model will predict the value of "On Netflix" to be equal to "1" if the normalized value is above 28.9%. Using these new predicted values at threshold of 0.289, we are able to create find new precision and recall values.
+
+![Classification Report Updated](/assets/img/port2/classification_report2.png)
+
 ---
 
 ## So, Streaming More Often Doesn't Help Gain More Followers?
