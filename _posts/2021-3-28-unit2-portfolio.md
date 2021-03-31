@@ -129,24 +129,76 @@ At first glance, we can see that the "Not On Netflix" precision and recall value
 
 # Back to the Editing Room
 
-Now that we got the initial response to our pre-release screening, it's time to go back to the editting room and improve our film. In this case, we're looking for a way to increase our relatively low precision and recall values for our model. One way is to adjust our threshold values that our model uses to make predictions. Currently the default threshold value is at 50%, meaning if the model predicts the normalized value of "On Netflix" to be above 50%, it will predict that observation to be on Netflix. One way to see which threshold to use, we can look at ROC curve.
+Now that we got the initial response to our pre-release screening, it's time to go back to the editting room and improve our film. In this case, we're looking for a way to increase our relatively low precision and recall values for our random forest model. One way is to adjust our threshold values that our model uses to make predictions. Currently the default threshold value is at 50%, meaning if the model predicts the normalized value of "On Netflix" to be above 50%, it will predict that observation to be on Netflix. One way to see which threshold to use, we can look at ROC curve.
 
 ![ROC Curve](/assets/img/port2/ROC Curve.png)
 
-The ROC Curve compares the false positive rates(FPR) with the true positive rates(TPR) of our models. The ideal point on this model would be where there is a high true positive rate and a low false positive rate. Looking at the curve, we see the curve increase sharply at a high TPR at the FPR range of 0.1 - 0.3 before it starts to slowly taper off. By creating a mask, we are able to find the corresponding threshold to use (threshold = 0.289). This threshold means that now instead of 50%, the model will predict the value of "On Netflix" to be equal to "1" if the normalized value is above 28.9%. Using these new predicted values at threshold of 0.289, we are able to create find new precision and recall values.
+The ROC Curve compares the false positive rates(FPR) with the true positive rates(TPR) of our models. The ideal point on this model would be where there is a high true positive rate and a low false positive rate. Looking at the curve, we see the curve increase sharply at a high TPR at the FPR range of 0.1 - 0.3 before it starts to slowly taper off. By creating a mask, we are able to find the corresponding threshold to use (threshold = 0.289). This threshold means that now instead of 50%, the model will predict the value of "On Netflix" to be equal to "1" if the normalized value is above 28.9%. 
+
+# Release the Movie
+Now that we re-editted the movie, it's time to finally release it to theaters and hope for the best. So in data science terms, we use the new predicted values at threshold of 0.289 and are able to create a new classification report to find new precision and recall values.
 
 ![Classification Report Updated](/assets/img/port2/classification_report2.png)
 
+We can see in the above report that the precision and recall values increased significantly while the accuracy average is still above our baseline. Although, in a perfect world, I would ideally want a higher precision score as it's still relatively low at 0.54, with my current knowledge of models, I'm happy with my results.
+
+#### Most Important Features
+Now that its released, we can dive into answering our original question. What features are most important in a movie/show for Netflix to feature? Using python extract the feature importances from my random forest model, I found the top 10 features below.
+
+![Feature Importances](/assets/img/port2/feature_imporatnces.png)
+
+Looking at this graph, we can see by far the most important feature is the Year the movie was produced. This shows the newer the movie is, the more likely it would be featured on Netflix. Having a high IMDb rating is the second most important feature which logically makes sense. It also shows that a movie being produced in India has made it into our top 10 feature importances. It might be worth doing a deeper dive in the future to see Bollywood's impact on being featured in Netflix
+
 ---
 
-## So, Streaming More Often Doesn't Help Gain More Followers?
+## Eh, What if I Don't Care About Netflix?
 
-Therefore, it seems that Lifewire and other sources claims were wrong and that streaming more often doesn't help streamers gain more followers. However, before we make any definite conclusions, we still have to look at the context of the data that was used in all our models. Firstly, the data from Twitch that we received only contained data from the Top 1000 streamers on Twitch. And although the data encompasses streamers who aren't the most impressive holistically (the smallest streamer in our dataset averages 235 viewers), it is still a very small and biased minority of the streamer community. These streamers are still at the top of the streaming ecosystem, and it is likely that different trends occur at the top compared to streamers just starting out. Also, there are many more smaller streamers in the streaming ecosystem, who not only are on Twitch, but on other platforms like Facebook, YouTube, and more. If we wanted to make less biased models, we would need a random sampling of all streamers on all streaming platforms (or better data for our models include all data of all streamers on all streaming platforms). 
+Some of you might be reading this and wondering, so what? What if I don't care about having my movie on Netflix, or on any other streaming platform for that matter. Then firstly, colored me impressed that you read this far. But secondly, I can also show you what features of a movie helps get a higher IMDb rating. In contrast to before, since an IMDb rating is a contininous numerical variable, I will be creating a Ridge Regression model to find the most important features for a high IMDb rating.
 
-Also, it seemed that Lifewire's advice was primarily targeting aspiring streamers. So if our data included only all streamers who started in the past year, we might be able to get different results that supports Lifewire's claim that streaming more helps streamers gain more followers. In the future, if that data is available, I would re-run the models with this data to see if there is a difference.
+In terms of cleaning the data, it was very similar to what we did in the classification models. One change though is that we didn't remove _Hulu_, _Prime Video_, and _Disney+_ features as I feel that they would be relevant for our ridge regression model.
 
-We also have to see awknowledge that there are many unknown factors that help a streamer grow, and some of those factors may not even be able to be recorded into data as of yet. For instance, some streamers blow up depending on their network connections. Or other streamers grow significantly because they excelled at streaming the newest gaming trend. As more variables of data are able to become recorded, we could create more accurate models to see how correlated certain variables are to gaining followers.
+The features that would be incorporated in my model are the following:
+- **Netflix:** Whether the movie is found on Netflix
+- **Hulu:** Whether the movie is found on Hulu
+- **Prime Video** Whether the movie is found on Amazon Prime Video
+- **Disney+** Whether the movie is found on Disney+
+- **Year:** The year in which the movie was produced
+- **IMDb:** IMDb rating of the movie
+- **Genres:** Genre of the movie
+- **Country:** Country origin of the movie
+- **Language:** Languages spoken in the movie
+- **Runtime:** The runtime of the movie
 
-However, in conclusion, we found that within the top 1000 streamers on Twitch, streaming more often is correlated negatively with gaining followers. Or top Twitch streamers who streamed more often, would often not gain as much followers as top Twitch streamers who streamed less often. 
+After splitting the data, in order to get the baseline, I calculated the mean absolute error by using the mean of y_train and the predicted y values based off of y. I found the baseline MAE to be 1.07. I then created a ridge regression model with the following hyperparameters.
 
+```python
+# Ridge Regression Model
+model = make_pipeline(OneHotEncoder(use_cat_names=True),
+                      SimpleImputer(strategy = 'mean'),
+                      StandardScaler(),
+                      Ridge(alpha = 600),
+                      )
+                                             
+model.fit(X_train, y_train)
+```
 
+Using the model, we found the MAE's to be:
+- Training MAE: 0.839
+- Validation MAE: 0.856
+- Test MAE: 0.874
+
+Since these MAE's are lower than our baseline, we can see that our ridge model is working well.
+
+We also found the R-squared of the ridge regression model to be:
+
+- Training R-squared: 0.351
+- Validation R-squared: 0.331
+- Test R-squared: 0.320
+ 
+The R-squared values are pretty low overall. This most likely means that there are other features that we are unaware of, that have an impact on IMDb rating. If we had a more expansive data set, we could perhaps improve the score.
+
+Since I was overall happy with the model, I pulled the coefficients from the features of the model to find most impactful features from this model.
+
+![Ridge Coefficient](/assets/img/port2/ridge_coefficients.png)
+
+Here the main takeaways are that documentaries on average tend to have the highest IMDb scores while horrow movies/shows tend to have the lowest IMDB scores. We can also see that movies being on Netflix have a positive impact on IMDb score. So maybe in the end, using slighlty flawed and stretched logic, aspiring film makers should try to make movies with their goal to be featured in Netflix.
