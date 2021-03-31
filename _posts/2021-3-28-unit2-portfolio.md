@@ -30,7 +30,7 @@ Are you an aspring film maker? Are you intrigued by algorithms? Are you curious 
 
 ---
 
-# Skimming the Fat
+# Proofreading the Script
 
 With 17,000 observations, one could imagine the amount of cleaning I had to do just to prepare the data for my model. So I took a nice and easy systematic approach to skimming some of the fat of my data.
 
@@ -49,20 +49,38 @@ Now that I dropped a lot of the fat, the features that would be incorporated in 
 - **IMDb:** IMDb rating of the movie
 - **Genres:** Genre of the movie
 - **Country:** Country origin of the movie
-- **Language:** Primary language spoken in the movie
+- **Language:** Languages spoken in the movie
 - **Runtime:** The runtime of the movie
 
-# Fleshing Out the Fat
+# Expand the Interesting Scenarios
+While exploring the data, I found that for three of my features, that some of their observations had multiple values that could be seperated into new variables. For example, in the _Language_ column, one observation could be 'English, Japanese, Spanish', which shows what languages were spoken in the film. 
 
-## So Now What?
+![Simple Linear Regression Graph](/assets/img/port2/cleaned_data_frame.png)
 
-After I cleaned up my data, I started to think of what methods would be best to prove that there is a relationship between streaming often and gaining followers. I decided to take a step-by-step process, using the more simplistic methods first, and then expanding to more elaborative methods at the end. This would hopefully allow me to craft a better picture of the relationship between the variables while also showcasing multiple methods in the process. The methods that I used in order were:
-- 2-independent-sample t-test
-- Simple linear regression model
-- Simple linear regression model with ouliers removed
-- Multiple regression model
+However, in order to tune our data so that our binary classification model performs better, it is better to convert these observations with multiple languages so that each language receives its own value. If you compare the image above to the image below, you can see now that the original _Language_ column has been deleted, and replaced by each of the language values that it previously contained. So now, for the previous observation of 'English, Japanese, Spanish', there would be an int value of '1' for the _English_, _Japanese_, and _Spanish_ columns. I applied the same process for the _Genres_ and _Country_ columns as well, which expanded our dataframe to 201 columns(which still works since we still had 16,744 observations)
 
-I will go into more detail of each method as we proceed.
+![Simple Linear Regression Graph](/assets/img/port2/expanded_data_frame.png)
+
+# Hire the Crew to Get the Job Done
+
+Now that we have our script written, it's time to hire the producers, actors, and crew to create the movie. In our case, its finally time to build our model. Since our goal is to see what features help a movie get on Netflix, our target feature is _Netflix_. After using our target feature to create our train, val, and test sets using a train_test_split, I wanted to use a random forest classification model and XGBoost model and see which model would create the best predictions and interesting feature importances. In order to check to see which model would be viable, I created a baseline accuracy (using the normalizrd max value of our y_train set) that showed that the models had to beat a baseline accuracy of 78.9&. I would also look at other metrics of the models such as ROC AUC, precision, and AUC scores to compare the efficacies of the models.
+
+#### Random Forest Model
+
+I first created a Random Forest model using randomized search methods to tune my hyper-parameters.
+```python
+#Random Forest Model
+model = make_pipeline(OrdinalEncoder(),
+                      SimpleImputer(strategy = 'median'),
+                      StandardScaler(),
+                      RandomForestClassifier(random_state=42,
+                                             max_depth = 60,
+                                             n_estimators = 90,
+                                             class_weight = 'balanced_subsample')
+                      )
+                                       
+model.fit(X_train, y_train)
+```
 
 ## Using a 2-Independent-Sample T-Test
 
@@ -85,7 +103,7 @@ One of the limits of using a t-test is that it only tells us that there is a rel
 
 In order to see the simple linear regression model, I plotted our two variables against each other in Python
 
-![Simple Linear Regression Graph](/assets/img/Simple_linear_reg_graph_port1.png)
+![Simple Linear Regression Graph](/assets/img/port2/Simple_linear_reg_graph_port1.png)
 
 Just by looking at the graph, I could see that there is a negative correlation between the two variables. However since the axis for _"Followers_gained"_ is in the millions, it hard to say how strong the correlation, but it still looks a litte bit on the weaker side. We could also see a bit of outliers in the graph, which could skew the correlation to be more negative. The data points also seem pretty spread, however since there are 1,000 data points, it could be deceptively more linear than it looks.
 
