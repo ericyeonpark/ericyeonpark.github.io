@@ -8,7 +8,7 @@ share-img: /assets/img/port2/Netflix_Thumbnail.jpeg
 tags: [Lambda-School, portfolio]
 ---
 
-# How to Get On Netflix
+## How to Get On Netflix
 
 Are you an aspring film maker? Are you intrigued by algorithms? Are you curious what aspects that companies and consumers look for in a successful movie. Then you're in the right place. Today, I'm going to dive in to what features of a movie make it most likely to be featured on Netflix. In order to figure this out, I conducted a binary classification model using features I found on Kaggle(data updated as of May 2020). And what are these features. You can see exactly what they are below:
 
@@ -30,7 +30,7 @@ Are you an aspring film maker? Are you intrigued by algorithms? Are you curious 
 
 ---
 
-# Proofreading the Script
+## Proofreading the Script
 
 With 17,000 observations, one could imagine the amount of cleaning I had to do just to prepare the data for my model. So I took a nice and easy systematic approach to skimming some of the fat of my data.
 
@@ -52,7 +52,7 @@ Now that I dropped a lot of the fat, the features that would be incorporated in 
 - **Language:** Languages spoken in the movie
 - **Runtime:** The runtime of the movie
 
-# Expand the Interesting Scenarios
+## Expand the Interesting Scenarios
 While exploring the data, I found that for three of my features, that some of their observations had multiple values that could be seperated into new variables. For example, in the _Language_ column, one observation could be 'English, Japanese, Spanish', which shows what languages were spoken in the film. 
 
 ![Clean Dataframe](/assets/img/port2/cleaned_data_frame.png)
@@ -61,7 +61,7 @@ However, in order to tune our data so that our binary classification model perfo
 
 ![Expanded Dataframe](/assets/img/port2/expanded_data_frame.png)
 
-# Hire the Crew to Get the Job Done
+## Hire the Crew to Get the Job Done
 
 Now that we have our script written, it's time to hire the producers, actors, and crew to create the movie. In our case, its finally time to build our model. Since our goal is to see what features help a movie get on Netflix, our target feature is _Netflix_. After using our target feature to create our train, val, and test sets using a train_test_split, I wanted to use a random forest classification model and XGBoost model and see which model would create the best predictions and interesting feature importances. In order to check to see which model would be viable, I created a baseline accuracy (using the normalizrd max value of our y_train set) that showed that the models had to beat a baseline accuracy of 78.9&. I would also look at other metrics of the models such as ROC AUC, precision, and AUC scores to compare the efficacies of the models.
 
@@ -100,7 +100,7 @@ model_xgb = make_pipeline(OrdinalEncoder(),
 model_xgb.fit(X_train, y_train)
 ```
 
-# Host a Screening of the Movie and Recieve Feedback
+## Host a Screening of the Movie and Recieve Feedback
 
 Now that we directed and produced the movie, it's now time to hold a pre-release screening and see the initial reaction to our movie. Or in more technical terms, we fit our models and see what metrics we get from each model.
 
@@ -127,7 +127,7 @@ Next, using the classification_report function from sklearn, I found the precisi
 
 At first glance, we can see that the "Not On Netflix" precision and recall values are pretty high (>84%). This shows that our model was generally good at predicting movies that weren't featured on Netflix. However, more importantly, is seems that our "On Netflix" precision and recall values are much lower (35% - 64%). The precision values shows that of all the movies our model predicted to be on Netflix, what percentage of those predictions were correct (i.e., out of all the predictions our random forest model predicted to be on Netflix, it was correct for 64% of its guesses). The recall values shows that out of the total movies that were on Netflix, what percentage of those movies did our model correctly predict to be on Netflix (i.e., our random forest model predicted 35% of all the Netflix movies to be on Netflix). We can see that our XGBoost model slightly outperformed our random forest model, however, I think there is still a way to help increase our values.
 
-# Back to the Editing Room
+## Back to the Editing Room
 
 Now that we got the initial response to our pre-release screening, it's time to go back to the editting room and improve our film. In this case, we're looking for a way to increase our relatively low precision and recall values for our random forest model. One way is to adjust our threshold values that our model uses to make predictions. Currently the default threshold value is at 50%, meaning if the model predicts the normalized value of "On Netflix" to be above 50%, it will predict that observation to be on Netflix. One way to see which threshold to use, we can look at ROC curve.
 
@@ -135,7 +135,7 @@ Now that we got the initial response to our pre-release screening, it's time to 
 
 The ROC Curve compares the false positive rates(FPR) with the true positive rates(TPR) of our models. The ideal point on this model would be where there is a high true positive rate and a low false positive rate. Looking at the curve, we see the curve increase sharply at a high TPR at the FPR range of 0.1 - 0.3 before it starts to slowly taper off. By creating a mask, we are able to find the corresponding threshold to use (threshold = 0.289). This threshold means that now instead of 50%, the model will predict the value of "On Netflix" to be equal to "1" if the normalized value is above 28.9%. 
 
-# Release the Movie
+## Release the Movie
 Now that we re-editted the movie, it's time to finally release it to theaters and hope for the best. So in data science terms, we use the new predicted values at threshold of 0.289 and are able to create a new classification report to find new precision and recall values.
 
 ![Classification Report Updated](/assets/img/port2/classification_report2.png)
