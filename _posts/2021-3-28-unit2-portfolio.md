@@ -206,5 +206,6 @@ The main takeaways from these coefficients are that documentaries on average ten
 
 ---
 
+
 Link to GitHub repo can be found [here](https://github.com/ericyeonpark/Lambda_Unit_2_Project_Movies)
 
