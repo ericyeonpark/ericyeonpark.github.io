@@ -59,7 +59,7 @@ While exploring the data, I found that for three of my features, that some of th
 
 However, in order to tune our data so that our binary classification model performs better, it is better to convert these observations with multiple languages so that each language receives its own value. If you compare the image above to the image below, you can see now that the original _Language_ column has been deleted, and replaced by each of the language values that it previously contained. So now, for the previous observation of 'English, Japanese, Spanish', there would be an int value of '1' for the _English_, _Japanese_, and _Spanish_ columns. I applied the same process for the _Genres_ and _Country_ columns as well, which expanded our dataframe to 201 columns(which still works since we still had 16,744 observations)
 
-![Expanded Dataframe](/assets/img/port2/expanded_data_frame.png)
+![Expanded Dataframe](/assets/img/port2/expanded_data_frame_2.png)
 
 ## Hire the Crew to Get the Job Done
 
