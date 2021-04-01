@@ -10,7 +10,7 @@ tags: [Lambda-School, portfolio]
 
 ## How to Get On Netflix
 
-Are you an aspiring filmmaker? Are you intrigued by algorithms? Are you curious what aspects that companies and consumers look for in a successful movie? Then you're in the right place. Today, I'm going to dive into what features of a movie make it most likely to be featured on Netflix. In order to figure this out, I conducted a binary classification model using data found on Kaggle (data updated as of May 2020). And the features of the data can be found below:
+Are you an aspiring filmmaker? Are you intrigued by algorithms? Are you curious what aspects that companies and consumers look for in a successful movie? Then you're in the right place. Today, I'm going to dive into what features of a movie make it most likely to be featured on Netflix. To figure this out, I conducted a binary classification model using data found on Kaggle (data updated as of May 2020). And the features of the data can be found below:
 
 - **Netflix:** Whether the movie is found on Netflix
 - **ID:** Arbitrary ID number for each movie
@@ -32,10 +32,10 @@ Are you an aspiring filmmaker? Are you intrigued by algorithms? Are you curious 
 
 ## Proofreading the Script
 
-If we were to compare creating a model, with producing a movie, one of the first steps would be to evaluate various scripts that writers send us. And if we found an appealing script, we would likely want to make edits to strike out the unnecessary plot holes, and expand upon the interesting plot points. For our Kaggle data set, with 17,000 observations, one could imagine the amount of cleaning I had to do just to prepare the data for my model. So I took a nice and easy systematic approach to skimming some of the fat off my data.
+If we were to compare, creating a model, with producing a movie, one of the first steps would be to evaluate various scripts that writers send us. And if we found an appealing script, we would likely want to make edits to strike out the unnecessary plot holes, and expand upon the interesting plot points. Similarly, for creating a good classification model, using the data we received from Kaggle, we would need to trim the fat and delve deeper into the interesting points. And with a data set of 17,000 observations, one could imagine the amount of cleaning I had to do just to prepare the data for my model. So I took a nice and easy systematic approach to skimming some of the fat off my data.
 
 #### Dropping High Null Count Features
-My first step was to look at the null counts for all the features. To my dismay, I found that some of the more interesting features had high null counts. Both the _Rotten Tomatoes_ (~11,500 null values) and _Age_(~9390 null values) had over half of their observations as null and had to be removed.
+My first step was to look at the null counts for all the features. To my dismay, I found that some of the more interesting features had high null counts. Both the _Rotten Tomatoes_ (~11,500 null values) and _Age_ (~9390 null values) had over half of their observations as null and had to be removed.
 
 #### Dropping High-Cardinality and Low-Cardinality Features
 Next I looked into which features had high-cardinality (had many unique values) and found three features that made the cut (_Title_, _Directors_, and _ID_). I wasn't too sad about dropping these features because in terms of the greater picture of finding what movies/shows get on Netflix, these features would have little importance for prediction in our model. However, unfortunately, I found that _Type_ seemed to be a broken feature in that it only had one value throughout (value = 0) and therefore had to be dropped since it would give no value to our model.
@@ -63,7 +63,7 @@ However, in order to tune our data so that our binary classification model perfo
 
 ## Hire the Crew to Get the Job Done
 
-Now that we have our script written, it's time to hire the producers, actors, and crew to create the movie. In our case, it's finally time to build our model. Since our goal is to see what features help a movie get on Netflix, our target feature is _Netflix_. After using our target feature to create our training, validation, and test sets using a train_test_split, I wanted to use a random forest classification model and XGBoost model and see which model would create the best predictions and interesting feature importances. In order to check to see which model would be viable, I created a baseline accuracy, using the normalized max value of our y_train set that showed that the models had to beat a baseline accuracy of 78.9%. I would also look at other metrics of the models such as ROC AUC, precision, and AUC scores to compare the efficacies of the models.
+Now that we have our script written, it's time to hire the producers, actors, and crew to create the movie. In our case, it's finally time to build our model. Since our goal is to see what features help a movie get on Netflix, our target feature is _Netflix_. After using our target feature to create our training, validation, and test sets using a train_test_split, I wanted to use a random forest classification model and XGBoost model and see which model would create the best predictions and interesting feature importances. In order to check to see which model would be viable, I created a baseline accuracy, using the normalized max value of our y_train set that showed that the models had to beat a baseline accuracy of 78.9%. I would also look at other metrics of the models such as ROC AUC, precision, and recall scores to compare the efficacies of the models.
 
 #### Random Forest Model
 
@@ -145,7 +145,7 @@ We can see in the above report that the precision and recall values increased si
 #### Most Important Features
 Now that the movie is released, we can finally dive into answering our original question. What features are most important in a movie/show for Netflix to feature? Using python to extract the feature importances from my random forest model, I found the top 10 features below.
 
-![Feature Importances](/assets/img/port2/feature_importances.png)
+![Feature Importances](/assets/img/port2/feature_importance.png)
 
 Looking at this graph, we can see by far the most important feature is the year the movie was produced. This shows that the newer the movie is, the more likely it would be featured on Netflix. Having a high IMDb rating is the second most important feature which logically makes sense. It also shows that a movie being produced in India has made it into our top 10 feature importances. It might be worth doing a deeper dive in the future to see Bollywood's impact on Netflix.
 
@@ -201,6 +201,10 @@ Even so, I was overall happy with the model, and therefore I pulled the coeffici
 
 ![Ridge Coefficient](/assets/img/port2/ridge_coefficients.png)
 
-The main takeaways from these coefficients are that documentaries on average tend to have the highest IMDb scores while horror movies/shows tend to have the lowest IMDB scores. We can also see that movies being on Netflix have a positive impact on IMDb score. So maybe in the end, using a substantial leap in logic, aspiring filmmakers might want to make movies with a goal of being featured on Netflix to mind, in order to achieve a higher IMDb rating. On a more serious note, I hope you enjoyed seeing what features of a movie are impactful when trying to create a movie that’s featured on Netflix or achieving a higher IMDb rating.
+The main takeaways from these coefficients are that documentaries on average tend to have the highest IMDb scores while horror movies/shows tend to have the lowest IMDb scores. We can also see that movies being on Netflix have a positive impact on IMDb score. So maybe in the end, using a substantial leap in logic, aspiring filmmakers might want to make movies with a goal of being featured on Netflix to mind, in order to achieve a higher IMDb rating. On a more serious note, I hope you enjoyed seeing what features of a movie are impactful when trying to create a movie that’s featured on Netflix or achieve a higher IMDb rating.
 
+
+---
+
+Link to GitHub repo can be found [here](https://github.com/ericyeonpark/Lambda_Unit_2_Project_Movies)
 
