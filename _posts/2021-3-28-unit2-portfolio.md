@@ -145,7 +145,7 @@ We can see in the above report that the precision and recall values increased si
 #### Most Important Features
 Now that its released, we can dive into answering our original question. What features are most important in a movie/show for Netflix to feature? Using python extract the feature importances from my random forest model, I found the top 10 features below.
 
-![Feature Importances](/assets/img/port2/feature_imporatnces.png)
+![Feature Importances](/assets/img/port2/feature_importances.png)
 
 Looking at this graph, we can see by far the most important feature is the Year the movie was produced. This shows the newer the movie is, the more likely it would be featured on Netflix. Having a high IMDb rating is the second most important feature which logically makes sense. It also shows that a movie being produced in India has made it into our top 10 feature importances. It might be worth doing a deeper dive in the future to see Bollywood's impact on being featured in Netflix
 
